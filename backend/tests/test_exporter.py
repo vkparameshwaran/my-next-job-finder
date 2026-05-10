@@ -17,7 +17,7 @@ from app.models.resume import (
 def _resume() -> ResumeDoc:
     bullet = Bullet(id="b1", text="Original bullet text", section="experience", parent_id="job-1")
     return ResumeDoc(
-        contact=Contact(name="Param", email="param@example.com"),
+        contact=Contact(name="Sample Candidate", email="candidate@example.com"),
         summary="Senior engineer with X years of experience.",
         experience=[
             Job(
@@ -43,8 +43,8 @@ def _all_text(doc_bytes: bytes) -> str:
 def test_build_docx_includes_contact_and_sections() -> None:
     doc_bytes = build_docx(_resume())
     text = _all_text(doc_bytes)
-    assert "Param" in text
-    assert "param@example.com" in text
+    assert "Sample Candidate" in text
+    assert "candidate@example.com" in text
     assert "EXPERIENCE" in text
     assert "Original bullet text" in text
 

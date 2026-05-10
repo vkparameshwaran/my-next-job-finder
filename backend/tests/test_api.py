@@ -19,7 +19,7 @@ from tests.conftest import FakeAnthropic
 
 def _docx_upload_bytes() -> bytes:
     doc = Document()
-    doc.add_paragraph("Param Kumar — param@example.com")
+    doc.add_paragraph("Sample Candidate — candidate@example.com")
     doc.add_paragraph("Experience")
     doc.add_paragraph("Senior Engineer at Acme — Jan 2022 to Present")
     doc.add_paragraph("Was responsible for building backend services.")
@@ -37,7 +37,7 @@ def _seed_responses(fake: FakeAnthropic) -> None:
     )
     fake.queue(
         ResumeDoc(
-            contact=Contact(name="Param Kumar", email="param@example.com"),
+            contact=Contact(name="Sample Candidate", email="candidate@example.com"),
             experience=[
                 Job(
                     id="job-1",
@@ -89,7 +89,7 @@ def test_upload_returns_resume_and_report(
     assert response.status_code == 201
     body = response.json()
     assert body["record_id"]
-    assert body["resume"]["contact"]["name"] == "Param Kumar"
+    assert body["resume"]["contact"]["name"] == "Sample Candidate"
     assert body["report"]["ats_score"] >= 0
     assert len(body["report"]["suggestions"]) == 1
 
