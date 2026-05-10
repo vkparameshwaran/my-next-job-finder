@@ -69,7 +69,7 @@ def rewrite_bullets(
         messages=[{"role": "user", "content": user_blocks}],
         output_format=_SuggestionList,
     )
-    parsed = response.parsed_output
+    parsed = cast(_SuggestionList | None, response.parsed_output)
     if parsed is None:
         return []
     valid_ids = {b.id for b in target_bullets}

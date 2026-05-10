@@ -4,7 +4,7 @@ exporter → frontend) speaks these types."""
 from __future__ import annotations
 
 from datetime import UTC, datetime
-from typing import Literal
+from typing import Any, Literal
 from uuid import uuid4
 
 from pydantic import BaseModel, Field
@@ -140,7 +140,7 @@ class ResumeRecord(SQLModel, table=True):
     id: str = SQLField(default_factory=_new_id, primary_key=True)
     created_at: datetime = SQLField(default_factory=lambda: datetime.now(UTC))
     filename: str
-    resume_json: dict = SQLField(default_factory=dict, sa_column=Column(JSON))
-    report_json: dict | None = SQLField(default=None, sa_column=Column(JSON))
+    resume_json: dict[str, Any] = SQLField(default_factory=dict, sa_column=Column(JSON))
+    report_json: dict[str, Any] | None = SQLField(default=None, sa_column=Column(JSON))
     role_description: str | None = None
     accepted_suggestion_ids: list[str] = SQLField(default_factory=list, sa_column=Column(JSON))

@@ -38,7 +38,7 @@ def find_gaps(client: LLMClient, resume: ResumeDoc) -> GapReport:
         ],
         output_format=GapReport,
     )
-    parsed = response.parsed_output
+    parsed = cast(GapReport | None, response.parsed_output)
     if parsed is None:
         return GapReport(ats_score=50)
     parsed.suggestions = []

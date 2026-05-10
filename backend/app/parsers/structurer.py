@@ -56,7 +56,7 @@ def structure_resume(client: LLMClient, raw_text: str) -> ResumeDoc:
         ],
         output_format=ResumeDoc,
     )
-    parsed = response.parsed_output
+    parsed = cast(ResumeDoc | None, response.parsed_output)
     if parsed is None:
         raise ValueError("LLM did not return a parseable ResumeDoc")
     parsed.raw_text = raw_text

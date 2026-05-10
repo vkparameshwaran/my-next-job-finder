@@ -8,12 +8,18 @@ font (Calibri 11), bold for headings, plain bullets for lists.
 from __future__ import annotations
 
 from io import BytesIO
+from typing import TYPE_CHECKING
 
 from docx import Document
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from docx.shared import Pt
 
 from app.models.resume import Bullet, Degree, Job, Project, ResumeDoc, Suggestion
+
+if TYPE_CHECKING:
+    from docx.document import Document as DocumentType
+else:
+    DocumentType = object
 
 
 def _resolve_bullets(bullets: list[Bullet], accepted: dict[str, Suggestion]) -> list[str]:
@@ -59,7 +65,7 @@ def build_docx(resume: ResumeDoc, accepted_suggestions: list[Suggestion] | None 
     return buf.getvalue()
 
 
-def _write_header(doc: Document, resume: ResumeDoc) -> None:
+def _write_header(doc: DocumentType, resume: ResumeDoc) -> None:
     contact = resume.contact
     name_para = doc.add_paragraph()
     name_para.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
@@ -83,18 +89,18 @@ def _write_header(doc: Document, resume: ResumeDoc) -> None:
         line.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
 
 
-def _write_section(doc: Document, title: str) -> None:
+def _write_section(doc: DocumentType, title: str) -> None:
     para = doc.add_paragraph()
     run = para.add_run(title.upper())
     run.bold = True
     run.font.size = Pt(12)
 
 
-def _write_paragraph(doc: Document, text: str) -> None:
+def _write_paragraph(doc: DocumentType, text: str) -> None:
     doc.add_paragraph(text)
 
 
-def _write_job(doc: Document, job: Job, accepted: dict[str, Suggestion]) -> None:
+def _write_job(doc: DocumentType, job: Job, accepted: dict[str, Suggestion]) -> None:
     header_para = doc.add_paragraph()
     title_run = header_para.add_run(f"{job.title} — {job.company}")
     title_run.bold = True
@@ -109,7 +115,7 @@ def _write_job(doc: Document, job: Job, accepted: dict[str, Suggestion]) -> None
         doc.add_paragraph(line, style="List Bullet")
 
 
-def _write_project(doc: Document, project: Project, accepted: dict[str, Suggestion]) -> None:
+def _write_project(doc: DocumentType, project: Project, accepted: dict[str, Suggestion]) -> None:
     header_para = doc.add_paragraph()
     name_run = header_para.add_run(project.name)
     name_run.bold = True
@@ -121,7 +127,7 @@ def _write_project(doc: Document, project: Project, accepted: dict[str, Suggesti
         doc.add_paragraph(line, style="List Bullet")
 
 
-def _write_degree(doc: Document, degree: Degree, accepted: dict[str, Suggestion]) -> None:
+def _write_degree(doc: DocumentType, degree: Degree, accepted: dict[str, Suggestion]) -> None:
     header_para = doc.add_paragraph()
     qual_run = header_para.add_run(
         f"{degree.qualification}" + (f", {degree.field_of_study}" if degree.field_of_study else "")
