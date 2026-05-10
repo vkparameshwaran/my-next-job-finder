@@ -78,8 +78,7 @@ def _heuristic_resume_doc(raw_text: str) -> Any:
         line for line in lines[1:] if len(line.split()) >= 4 and not line.endswith(":")
     ][:5]
     bullets = [
-        Bullet(text=line, section="experience", parent_id="job-fake")
-        for line in bullet_lines
+        Bullet(text=line, section="experience", parent_id="job-fake") for line in bullet_lines
     ]
 
     job = Job(
