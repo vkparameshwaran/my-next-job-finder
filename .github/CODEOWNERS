@@ -1,0 +1,13 @@
+# Default owner — replace with the GitHub handle that owns the repo.
+*                       @param-vkp
+
+# Backend
+/backend/                @param-vkp
+/.github/workflows/backend-ci.yml @param-vkp
+
+# Frontend
+/frontend/               @param-vkp
+/.github/workflows/frontend-ci.yml @param-vkp
+
+# CI / repo plumbing
+/.github/                @param-vkp
